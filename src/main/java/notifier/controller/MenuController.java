@@ -29,13 +29,6 @@ public class MenuController {
         return menuService.findAll();
     }
     @PostMapping
-//    public void create(@RequestBody String date, @RequestBody String mealTime, @RequestBody List<String> items){
-//        Menu menu = new Menu();
-//        menu.setDate(date);
-//        menu.setItems(items);
-//
-//        menuService.join(menu);
-//    }
     public void create(@RequestBody MenuRequest menuRequest){
         Menu menu = new Menu();
         menu.setDate(menuRequest.getDate());
