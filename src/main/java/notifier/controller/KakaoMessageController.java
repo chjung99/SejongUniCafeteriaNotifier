@@ -70,9 +70,9 @@ public class KakaoMessageController {
         });
 
         // 마지막 쉼표 및 공백 제거
-//        if (concatenatedItems.length() > 0) {
-//            concatenatedItems.delete(concatenatedItems.length() - 2, concatenatedItems.length());
-//        }
+        if (concatenatedItems.length() > 0) {
+            concatenatedItems.delete(concatenatedItems.length() - 1, concatenatedItems.length());
+        }
 
         return concatenatedItems.toString();
     }
