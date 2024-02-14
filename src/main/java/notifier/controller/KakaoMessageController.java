@@ -5,12 +5,16 @@ import notifier.domain.KakaoSkillPayloadDto;
 import notifier.domain.KakaoSkillResponseDto;
 import notifier.domain.Menu;
 import notifier.domain.MenuClient;
+import notifier.domain.skillresponse.Output;
+import notifier.domain.skillresponse.SimpleText;
+import notifier.domain.skillresponse.SkillTemplate;
 import notifier.service.DateService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
 
 import java.util.Optional;
 
@@ -27,22 +31,44 @@ public class KakaoMessageController {
     }
 
     private KakaoSkillResponseDto generateResponse(Optional<Menu> menu) {
-//        todo
+        KakaoSkillResponseDto response = new KakaoSkillResponseDto();
+        SimpleText simpleText = new SimpleText();
+        String concatenatedMenuTexts = concatenateMenuItems(menu);
 
-//        SimpleText simpleText = new SimpleText("간단한 텍스트 요소입니다.");
-//        Output output = new Output(simpleText);
-//        Template template = new Template(new Output[]{output});
-//        Response response = new Response("2.0", template);
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String jsonResponse = objectMapper.writeValueAsString(response);
-//
-//        System.out.println(jsonResponse);
+        simpleText.setText(concatenatedMenuTexts);
+        Output output = new Output();
+        output.setSimpleText(simpleText);
+        
+
+        SkillTemplate template = new SkillTemplate();
+        template.setOutputs(new Output[]{output});
+
+        response.setVersion("2.0");
+        response.setTemplate(template);
+        
+        return response;
+    }
+
+    private String concatenateMenuItems(Optional<Menu> menuOptional) {
+        StringBuilder concatenatedItems = new StringBuilder();
+
+        menuOptional.ifPresent(menu -> {
+            for (String item : menu.getItems()) {
+                concatenatedItems.append(item).append(", ");
+            }
+        });
+
+        // 마지막 쉼표 및 공백 제거
+        if (concatenatedItems.length() > 0) {
+            concatenatedItems.delete(concatenatedItems.length() - 2, concatenatedItems.length());
+        }
+
+        return concatenatedItems.toString();
     }
 
     private Optional<Menu> getTodayMenu(String skillName, KakaoSkillPayloadDto kakaoSkillPayloadDto) {
         Optional<Menu> menu = null;
-        DateService dateService = null;
+        DateService dateService = new DateService();
         
         RestTemplate restTemplate = new RestTemplate();
         MenuClient menuClient = new MenuClient(restTemplate);

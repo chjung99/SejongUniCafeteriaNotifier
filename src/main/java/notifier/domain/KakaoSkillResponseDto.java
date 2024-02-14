@@ -1,37 +1,25 @@
 package notifier.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import notifier.domain.skillresponse.SkillTemplate;
 
 public class KakaoSkillResponseDto {
     private String version;
     private SkillTemplate template;
 
-    public class SkillTemplate {
-        private Output[] outputs;
-        class Output{
-            @JsonProperty("simpleText")
-            private SimpleText simpleText;
-
-            public SimpleText getSimpleText() {
-                return simpleText;
-            }
-
-            public void setSimpleText(SimpleText simpleText) {
-                this.simpleText = simpleText;
-            }
-        }
-        public static class SimpleText{
-            private String text;
-
-            public String getText() {
-                return text;
-            }
-
-            public void setText(String text) {
-                this.text = text;
-            }
-        }
+    public String getVersion() {
+        return version;
     }
 
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
+    public SkillTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(SkillTemplate template) {
+        this.template = template;
+    }
 }
