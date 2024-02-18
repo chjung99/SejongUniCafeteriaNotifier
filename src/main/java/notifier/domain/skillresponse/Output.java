@@ -1,25 +1,5 @@
 package notifier.domain.skillresponse;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class Output{
-    @JsonProperty("simpleText")
-    private SimpleText simpleText;
-    @JsonProperty("simpleImage")
-    private SimpleImage simpleImage;
-    public SimpleText getSimpleText() {
-        return simpleText;
-    }
-
-    public void setSimpleText(SimpleText simpleText) {
-        this.simpleText = simpleText;
-    }
-
-    public SimpleImage getSimpleImage() {
-        return simpleImage;
-    }
-
-    public void setSimpleImage(SimpleImage simpleImage) {
-        this.simpleImage = simpleImage;
-    }
+public interface Output {
+    // Output을 구현하는 클래스들이 반드시 구현해야 할 메서드를 정의합니다.
 }

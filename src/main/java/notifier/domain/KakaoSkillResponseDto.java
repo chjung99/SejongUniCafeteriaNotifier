@@ -1,6 +1,5 @@
 package notifier.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import notifier.domain.skillresponse.SkillTemplate;
 
 public class KakaoSkillResponseDto {

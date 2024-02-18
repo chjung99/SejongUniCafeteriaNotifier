@@ -5,10 +5,8 @@ import notifier.domain.KakaoSkillPayloadDto;
 import notifier.domain.KakaoSkillResponseDto;
 import notifier.domain.Menu;
 import notifier.domain.MenuClient;
+import notifier.domain.skillresponse.*;
 import notifier.domain.skillresponse.Output;
-import notifier.domain.skillresponse.SimpleImage;
-import notifier.domain.skillresponse.SimpleText;
-import notifier.domain.skillresponse.SkillTemplate;
 import notifier.service.DateService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +46,7 @@ public class KakaoMessageController {
         simpleImage.setImageUrl(thisWeekMenuUrl);
         simpleImage.setAltText(thisWeekAlterText);
 
-        Output output = new Output();
+        SimpleImageOutput output = new SimpleImageOutput();
         output.setSimpleImage(simpleImage);
 
 
@@ -81,7 +79,7 @@ public class KakaoMessageController {
         String concatenatedMenuTexts = concatenateMenuItems(menu);
 
         simpleText.setText(menuTextsTitle +"\n\n" + concatenatedMenuTexts);
-        Output output = new Output();
+        SimpleTextOutput output = new SimpleTextOutput();
         output.setSimpleText(simpleText);
         
 
