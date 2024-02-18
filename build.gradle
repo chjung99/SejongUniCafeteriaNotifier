@@ -9,17 +9,25 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '21'
+//	sourceCompatibility = '20'
 }
 
 repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	implementation 'com.oracle.oci.sdk:oci-java-sdk-common:3.34.1'
+//	implementation 'com.oracle.oci.sdk:oci-java-sdk-objectstorage:3.34.1'
+//	implementation 'com.oracle.oci.sdk:oci-java-sdk-common-httpclient-jersey:3.34.1'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
 }
 
 //tasks.named('test') {

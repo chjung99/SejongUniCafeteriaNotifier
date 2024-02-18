@@ -6,9 +6,11 @@ import notifier.domain.KakaoSkillResponseDto;
 import notifier.domain.Menu;
 import notifier.domain.MenuClient;
 import notifier.domain.skillresponse.Output;
+import notifier.domain.skillresponse.SimpleImage;
 import notifier.domain.skillresponse.SimpleText;
 import notifier.domain.skillresponse.SkillTemplate;
 import notifier.service.DateService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,17 +22,58 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/message")
 public class KakaoMessageController {
+    @RequestMapping("/api/message")
     @PostMapping
-    public KakaoSkillResponseDto create(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
+    public KakaoSkillResponseDto createTextResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
         String skillName = kakaoSkillPayloadDto.getAction().getName();
         Optional<Menu> menu = getTodayMenu(skillName, kakaoSkillPayloadDto);
-        KakaoSkillResponseDto response = generateResponse(skillName, menu);
+        KakaoSkillResponseDto response = generateSimpleTextResponse(skillName, menu);
+        return response;
+    }
+    @RequestMapping("/api/image")
+    @PostMapping
+    public KakaoSkillResponseDto createImageResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
+        KakaoSkillResponseDto response = generateSimpleImageResponse();
         return response;
     }
 
-    private KakaoSkillResponseDto generateResponse(String mealTime, Optional<Menu> menu) {
+    private KakaoSkillResponseDto generateSimpleImageResponse() {
+        KakaoSkillResponseDto response = new KakaoSkillResponseDto();
+        SimpleImage simpleImage = new SimpleImage();
+
+        String thisWeekMenuUrl = getThisWeekMenuUrl();
+        String thisWeekAlterText = getThisWeekAlterText();
+
+        simpleImage.setImageUrl(thisWeekMenuUrl);
+        simpleImage.setAltText(thisWeekAlterText);
+
+        Output output = new Output();
+        output.setSimpleImage(simpleImage);
+
+
+        SkillTemplate template = new SkillTemplate();
+        template.setOutputs(new Output[]{output});
+
+        response.setVersion("2.0");
+        response.setTemplate(template);
+
+        return response;
+    }
+
+    private String getThisWeekAlterText() {
+        String alterText = "이번 주 식단표입니다.";
+
+        return alterText;
+    }
+
+    private String getThisWeekMenuUrl() {
+        String menuUrl = "https://objectstorage.ap-chuncheon-1.oraclecloud.com/p/qlTVtSwqGyTdhGV29W3xC3JABjrOy3TpGmKK6foFtyK0opZrTxmEAV-JVRzcC5UQ/n/axn4dve0qg0d/b/sejong-uni-cafeteria-notifier/o/this_weeks_menu.JPG";
+
+        return menuUrl;
+    }
+
+    private KakaoSkillResponseDto generateSimpleTextResponse(String mealTime, Optional<Menu> menu) {
         KakaoSkillResponseDto response = new KakaoSkillResponseDto();
         SimpleText simpleText = new SimpleText();
 
