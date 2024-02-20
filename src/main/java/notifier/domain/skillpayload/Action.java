@@ -50,19 +50,13 @@ public class Action {
     }
 
 
-    public String getDateFromDetailParams() {
+    public String getOriginDateFromDetailParams() {
         // detailParams에서 sys_date 맵 가져오기
         Map<String, ?> sysDateMap = (Map<String, ?>) this.detailParams.get("sys_date");
 
         // sys_date 맵이 null이 아니고, value 맵에서 "date" 키를 사용하여 값을 가져오기
         if (sysDateMap != null) {
-            String dateValue = (String) sysDateMap.get("value");
-
-            // 값이 JSON 형식으로 되어 있으므로 파싱하여 "date" 키의 값 반환
-            // 여기서는 간단하게 문자열에서 "\"date\": \"" 다음에 나오는 10글자를 추출하는 방식으로 처리
-            int startIndex = dateValue.indexOf("\"date\": \"") + 9;
-            int endIndex = startIndex + 10;
-            return dateValue.substring(startIndex, endIndex);
+            return (String) sysDateMap.get("origin");
         }
 
         return null; // sys_date가 없거나 value가 없을 경우 null 반환
