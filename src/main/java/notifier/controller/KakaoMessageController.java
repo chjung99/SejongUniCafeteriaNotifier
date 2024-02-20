@@ -5,6 +5,7 @@ import notifier.domain.KakaoSkillPayloadDto;
 import notifier.domain.KakaoSkillResponseDto;
 import notifier.domain.Menu;
 import notifier.domain.MenuClient;
+import notifier.domain.skillpayload.Action;
 import notifier.domain.skillresponse.*;
 import notifier.domain.skillresponse.Output;
 import notifier.service.DateService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -25,50 +27,41 @@ public class KakaoMessageController {
     @PostMapping
     public KakaoSkillResponseDto createTextResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
         String skillName = kakaoSkillPayloadDto.getAction().getName();
-        Optional<Menu> menu = getTodayMenu(skillName, kakaoSkillPayloadDto);
-        KakaoSkillResponseDto response = generateSimpleTextResponse(skillName, menu);
-        return response;
-    }
-    @RequestMapping("/api/image")
-    @PostMapping
-    public KakaoSkillResponseDto createImageResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
-        KakaoSkillResponseDto response = generateSimpleImageResponse();
-        return response;
-    }
+        if (skillName.equals("lunchMenu") || skillName.equals("dinnerMenu")) {
+            Optional<Menu> menu = getTodayMenu(skillName);
+            KakaoSkillResponseDto response = generateSimpleTextResponse(skillName, menu);
+            return response;
+        } else if (skillName.equals("weeklyMenu")) {
+            KakaoSkillResponseDto response = generateCarouselListCardResponse();
+            return response;
+        } else if (skillName.equals("searchMenu")) {
+            Action action = kakaoSkillPayloadDto.getAction();
+            String date = action.getDateFromDetailParams();
+            String timePeriod = action.getOriginTimeFromDetailParams();
+            String mealTime = "";
+            if (timePeriod.equals("점심")){
+                mealTime = "lunch";
+            } else if (timePeriod.equals("저녁")) {
+                mealTime = "dinner";
+            }
+            RestTemplate restTemplate = new RestTemplate();
+            MenuClient menuClient = new MenuClient(restTemplate);
+            Optional<Menu> menu = menuClient.requestMenu(date, mealTime);
+            if (mealTime.equals("lunch")){
+                KakaoSkillResponseDto response = generateSimpleTextResponse("lunchMenu", menu);
 
-    private KakaoSkillResponseDto generateSimpleImageResponse() {
-        KakaoSkillResponseDto response = new KakaoSkillResponseDto();
-        SimpleImage simpleImage = new SimpleImage();
+                return response;
+            } else if (mealTime.equals("dinner")) {
+                KakaoSkillResponseDto response = generateSimpleTextResponse("dinnerMenu", menu);
 
-        String thisWeekMenuUrl = getThisWeekMenuUrl();
-        String thisWeekAlterText = getThisWeekAlterText();
-
-        simpleImage.setImageUrl(thisWeekMenuUrl);
-        simpleImage.setAltText(thisWeekAlterText);
-
-        SimpleImageOutput output = new SimpleImageOutput();
-        output.setSimpleImage(simpleImage);
-
-
-        SkillTemplate template = new SkillTemplate();
-        template.setOutputs(new Output[]{output});
-
-        response.setVersion("2.0");
-        response.setTemplate(template);
-
-        return response;
-    }
-
-    private String getThisWeekAlterText() {
-        String alterText = "이번 주 식단표입니다.";
-
-        return alterText;
+                return response;
+            }
+        }
+        return null;
     }
 
-    private String getThisWeekMenuUrl() {
-        String menuUrl = "https://objectstorage.ap-chuncheon-1.oraclecloud.com/p/qlTVtSwqGyTdhGV29W3xC3JABjrOy3TpGmKK6foFtyK0opZrTxmEAV-JVRzcC5UQ/n/axn4dve0qg0d/b/sejong-uni-cafeteria-notifier/o/this_weeks_menu.JPG";
-
-        return menuUrl;
+    private KakaoSkillResponseDto generateCarouselListCardResponse() {
+        return null;
     }
 
     private KakaoSkillResponseDto generateSimpleTextResponse(String mealTime, Optional<Menu> menu) {
@@ -118,7 +111,7 @@ public class KakaoMessageController {
         return concatenatedItems.toString();
     }
 
-    private Optional<Menu> getTodayMenu(String skillName, KakaoSkillPayloadDto kakaoSkillPayloadDto) {
+    private Optional<Menu> getTodayMenu(String skillName) {
         Optional<Menu> menu = null;
         DateService dateService = new DateService();
         
