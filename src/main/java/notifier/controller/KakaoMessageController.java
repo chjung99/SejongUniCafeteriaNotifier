@@ -123,6 +123,12 @@ public class KakaoMessageController {
         SkillTemplate template = new SkillTemplate();
         template.setOutputs(new Output[]{output});
 
+        QuickReply quickReply = new QuickReply();
+        quickReply.setLabel("이번 주 식단 한눈에 보기");
+        quickReply.setAction("message");
+        quickReply.setMessageText("식단표");
+        template.setQuickReplies(new QuickReply[]{quickReply});
+
         response.setVersion("2.0");
         response.setTemplate(template);
 
