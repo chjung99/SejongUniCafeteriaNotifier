@@ -26,6 +26,8 @@ public class KakaoMessageController {
     @RequestMapping("/api/message")
     @PostMapping
     public KakaoSkillResponseDto createTextResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
+        System.out.println(kakaoSkillPayloadDto.getAction().getParams());
+        System.out.println(kakaoSkillPayloadDto.getAction().getDetailParams());
         String skillName = kakaoSkillPayloadDto.getAction().getName();
         if (skillName.equals("lunchMenu") || skillName.equals("dinnerMenu")) {
             Optional<Menu> menu = getTodayMenu(skillName);
