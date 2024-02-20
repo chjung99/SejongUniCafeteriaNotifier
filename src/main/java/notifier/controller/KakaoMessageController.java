@@ -67,51 +67,48 @@ public class KakaoMessageController {
         DateService dateService = new DateService();
 
         List<String> weekDates = dateService.getWeekDates(dateService.getToday());
-        ArrayList<Card> cardItems = new ArrayList<Card>();
+        ArrayList<Card> cardItems = new ArrayList<>();
 
-        for(String date : weekDates){
+        for (String date : weekDates) {
             ListCard listCard = new ListCard();
-
             Header header = new Header();
             header.setTitle("이번 주 계절 밥상");
 
-            ArrayList<ListItem> items = new ArrayList<ListItem>();
+            ArrayList<ListItem> items = new ArrayList<>();
 
+            // 점심 아이템
             ListItem lunchItem = new ListItem();
-            ListItem dinnerItem = new ListItem();
-
             lunchItem.setTitle("점심");
-            dinnerItem.setTitle("저녁");
-
-            lunchItem.setMessageText(date + " 점심");
-            dinnerItem.setMessageText(date+ " 저녁");
-
-            lunchItem.setAction("message");
-            dinnerItem.setAction("message");
-
-            Map<String, String> lunchExtra = new HashMap<>();
-
-            lunchExtra.put("sys_date",date);
-            lunchExtra.put("sys_time_period", "lunch");
-
-            Map<String, String> dinnerExtra = new HashMap<>();
-
-            dinnerExtra.put("sys_date",date);
-            dinnerExtra.put("sys_time_period", "dinner");
-
             lunchItem.setDescription("test");
-            dinnerItem.setDescription("test");
+            lunchItem.setAction("message");
+            lunchItem.setMessageText(date + " 점심");
 
-            lunchItem.setExtra(lunchExtra);
-            dinnerItem.setExtra(dinnerExtra);
-
+//            Map<String, String> lunchExtra = new HashMap<>();
+//            lunchExtra.put("sys_date", date);
+//            lunchExtra.put("sys_time_period", "lunch");
+//
+//            lunchItem.setExtra(lunchExtra);
             items.add(lunchItem);
+
+            // 저녁 아이템
+            ListItem dinnerItem = new ListItem();
+            dinnerItem.setTitle("저녁");
+            dinnerItem.setDescription("test");
+            dinnerItem.setAction("message");
+            dinnerItem.setMessageText(date + " 저녁");
+
+//            Map<String, String> dinnerExtra = new HashMap<>();
+//            dinnerExtra.put("sys_date", date);
+//            dinnerExtra.put("sys_time_period", "dinner");
+//
+//            dinnerItem.setExtra(dinnerExtra);
             items.add(dinnerItem);
 
             listCard.setHeader(header);
             listCard.setItems(items);
-
             cardItems.add(listCard);
+
+            break;
         }
 
         carousel.setType("listCard");
@@ -127,6 +124,7 @@ public class KakaoMessageController {
 
         return response;
     }
+
 
     private KakaoSkillResponseDto generateSimpleTextResponse(String mealTime, Optional<Menu> menu) {
         KakaoSkillResponseDto response = new KakaoSkillResponseDto();

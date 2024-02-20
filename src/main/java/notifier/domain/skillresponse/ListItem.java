@@ -7,7 +7,7 @@ public class ListItem {
     private String description;
     private String action;
     private String messageText;
-    private Map<String, ?> extra;
+//    private Map<String, ?> extra;
 
     public String getTitle() {
         return title;
@@ -41,11 +41,11 @@ public class ListItem {
         this.messageText = messageText;
     }
 
-    public Map<String, ?> getExtra() {
-        return extra;
-    }
-
-    public void setExtra(Map<String, ?> extra) {
-        this.extra = extra;
-    }
+//    public Map<String, ?> getExtra() {
+//        return extra;
+//    }
+//
+//    public void setExtra(Map<String, ?> extra) {
+//        this.extra = extra;
+//    }
 }
