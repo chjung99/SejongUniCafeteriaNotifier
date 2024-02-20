@@ -84,7 +84,7 @@ public class KakaoMessageController {
 
             // 점심 아이템
             ListItem lunchItem = new ListItem();
-            lunchItem.setTitle("☀\uFE0F점심");
+            lunchItem.setTitle("☀\uFE0F 점심");
             lunchItem.setDescription("");
             lunchItem.setAction("message");
             lunchItem.setMessageText(date + " 점심");
@@ -98,7 +98,7 @@ public class KakaoMessageController {
 
             // 저녁 아이템
             ListItem dinnerItem = new ListItem();
-            dinnerItem.setTitle("\uD83C\uDF19저녁");
+            dinnerItem.setTitle("\uD83C\uDF19 저녁");
             dinnerItem.setDescription("");
             dinnerItem.setAction("message");
             dinnerItem.setMessageText(date + " 저녁");
