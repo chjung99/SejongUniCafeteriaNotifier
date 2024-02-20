@@ -24,7 +24,7 @@ import java.util.*;
 public class KakaoMessageController {
     @RequestMapping("/api/message")
     @PostMapping
-    public KakaoSkillResponseDto createTextResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
+    public KakaoSkillResponseDto createTextResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto) {
         String skillName = kakaoSkillPayloadDto.getAction().getName();
         if (skillName.equals("lunchMenu") || skillName.equals("dinnerMenu")) {
             Optional<Menu> menu = getTodayMenu(skillName);
@@ -38,7 +38,7 @@ public class KakaoMessageController {
             String date = action.getOriginDateFromDetailParams();
             String timePeriod = action.getOriginTimeFromDetailParams();
             String mealTime = "";
-            if (timePeriod.equals("점심")){
+            if (timePeriod.equals("점심")) {
                 mealTime = "lunch";
             } else if (timePeriod.equals("저녁")) {
                 mealTime = "dinner";
@@ -46,7 +46,7 @@ public class KakaoMessageController {
             RestTemplate restTemplate = new RestTemplate();
             MenuClient menuClient = new MenuClient(restTemplate);
             Optional<Menu> menu = menuClient.requestMenu(date, mealTime);
-            if (mealTime.equals("lunch")){
+            if (mealTime.equals("lunch")) {
                 KakaoSkillResponseDto response = generateSimpleTextResponse("lunchMenu", menu);
 
                 return response;
@@ -58,6 +58,7 @@ public class KakaoMessageController {
         }
         return null;
     }
+
 
     private KakaoSkillResponseDto generateCarouselListCardResponse() {
         KakaoSkillResponseDto response = new KakaoSkillResponseDto();
@@ -107,8 +108,6 @@ public class KakaoMessageController {
             listCard.setHeader(header);
             listCard.setItems(items);
             cardItems.add(listCard);
-
-            break;
         }
 
         carousel.setType("listCard");
