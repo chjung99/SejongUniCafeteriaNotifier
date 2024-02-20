@@ -160,9 +160,9 @@ public class KakaoMessageController {
     private String getMenuTextsTitle(String mealTime, String date) {
 
         if(mealTime.equals("lunchMenu")){
-            return "\uD83C\uDF7D\uFE0F" +getFormattedDate(date) + " (" + getDayOfWeek(date) + ") 점심 \uD83C\uDF5A";
+            return "\uD83C\uDF7D\uFE0F " +getFormattedDate(date) + " (" + getDayOfWeek(date) + ") 점심";
         } else if (mealTime.equals("dinnerMenu")) {
-            return "\uD83C\uDF7D\uFE0F" +getFormattedDate(date) + " (" + getDayOfWeek(date) + ") 저녁 \uD83C\uDF5A";
+            return "\uD83C\uDF7D\uFE0F " +getFormattedDate(date) + " (" + getDayOfWeek(date) + ") 저녁";
         }
         return "mealTime ERROR";
     }
