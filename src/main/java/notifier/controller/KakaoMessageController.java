@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import java.time.format.TextStyle;
 import java.util.*;
 
 
@@ -77,14 +78,14 @@ public class KakaoMessageController {
         for (String date : weekDates) {
             ListCard listCard = new ListCard();
             Header header = new Header();
-            header.setTitle("이번 주 계절 밥상");
+            header.setTitle(getFormattedDate(date) + " (" + getDayOfWeek(date) + ")");
 
             ArrayList<ListItem> items = new ArrayList<>();
 
             // 점심 아이템
             ListItem lunchItem = new ListItem();
-            lunchItem.setTitle("점심");
-            lunchItem.setDescription("test");
+            lunchItem.setTitle("☀\uFE0F점심");
+            lunchItem.setDescription("");
             lunchItem.setAction("message");
             lunchItem.setMessageText(date + " 점심");
 
@@ -97,8 +98,8 @@ public class KakaoMessageController {
 
             // 저녁 아이템
             ListItem dinnerItem = new ListItem();
-            dinnerItem.setTitle("저녁");
-            dinnerItem.setDescription("test");
+            dinnerItem.setTitle("\uD83C\uDF19저녁");
+            dinnerItem.setDescription("");
             dinnerItem.setAction("message");
             dinnerItem.setMessageText(date + " 저녁");
 
@@ -153,18 +154,22 @@ public class KakaoMessageController {
     private String getMenuTextsTitle(String mealTime, String date) {
 
         if(mealTime.equals("lunchMenu")){
-            return "\uD83C\uDF7D\uFE0F" +getFormattedDate(date)+" 점심 \uD83C\uDF5A";
+            return "\uD83C\uDF7D\uFE0F" +getFormattedDate(date) + " (" + getDayOfWeek(date) + ") 점심 \uD83C\uDF5A";
         } else if (mealTime.equals("dinnerMenu")) {
-            return "\uD83C\uDF7D\uFE0F" +getFormattedDate(date)+" 저녁 \uD83C\uDF5A";
+            return "\uD83C\uDF7D\uFE0F" +getFormattedDate(date) + " (" + getDayOfWeek(date) + ") 저녁 \uD83C\uDF5A";
         }
         return "mealTime ERROR";
     }
     private String getFormattedDate(String date) {
         LocalDate parsedDate = LocalDate.parse(date);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M월 d일");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M월 d일", Locale.KOREAN);
         return parsedDate.format(formatter);
     }
-
+    private String getDayOfWeek(String date) {
+        LocalDate parsedDate = LocalDate.parse(date);
+        String dayOfWeek = parsedDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.KOREAN);
+        return dayOfWeek.substring(0, 1);
+    }
     private String concatenateMenuItems(Optional<Menu> menuOptional) {
         StringBuilder concatenatedItems = new StringBuilder();
 
