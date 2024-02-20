@@ -199,5 +199,46 @@ public class KakaoMessageController {
         }
         return menu;
     }
+
+    @RequestMapping("/api/image")
+    @PostMapping
+    public KakaoSkillResponseDto createImageResponse(@RequestBody KakaoSkillPayloadDto kakaoSkillPayloadDto){
+        KakaoSkillResponseDto response = generateSimpleImageResponse();
+        return response;
+    }
+
+    private KakaoSkillResponseDto generateSimpleImageResponse() {
+        KakaoSkillResponseDto response = new KakaoSkillResponseDto();
+        SimpleImage simpleImage = new SimpleImage();
+
+        String thisWeekMenuUrl = getThisWeekMenuUrl();
+        String thisWeekAlterText = getThisWeekAlterText();
+
+        simpleImage.setImageUrl(thisWeekMenuUrl);
+        simpleImage.setAltText(thisWeekAlterText);
+
+        SimpleImageOutput output = new SimpleImageOutput();
+        output.setSimpleImage(simpleImage);
+
+
+        SkillTemplate template = new SkillTemplate();
+        template.setOutputs(new Output[]{output});
+
+        response.setVersion("2.0");
+        response.setTemplate(template);
+
+        return response;
+    }
+
+    private String getThisWeekAlterText() {
+        String alterText = "이번 주 식단표입니다.";
+
+        return alterText;
+    }
+
+    private String getThisWeekMenuUrl() {
+        String menuUrl = "https://objectstorage.ap-chuncheon-1.oraclecloud.com/p/3AEg292l5xMSHy3BDKXRmAuNA3uyo3v_xweEu_LSpRKn1WG7K3xQL6vLEuH0hErt/n/axn4dve0qg0d/b/sejong-uni-cafeteria-notifier/o/this_week_menu.jpg";
+        return menuUrl;
+    }
 }
 
