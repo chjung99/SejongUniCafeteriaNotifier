@@ -5,8 +5,8 @@ import java.util.Map;
 public class ListItem {
     private String title;
     private String description;
-    private String action;
-    private String messageText;
+//    private String action;
+//    private String messageText;
 //    private Map<String, ?> extra;
 
     public String getTitle() {
@@ -25,21 +25,21 @@ public class ListItem {
         this.description = description;
     }
 
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    public String getMessageText() {
-        return messageText;
-    }
-
-    public void setMessageText(String messageText) {
-        this.messageText = messageText;
-    }
+//    public String getAction() {
+//        return action;
+//    }
+//
+//    public void setAction(String action) {
+//        this.action = action;
+//    }
+//
+//    public String getMessageText() {
+//        return messageText;
+//    }
+//
+//    public void setMessageText(String messageText) {
+//        this.messageText = messageText;
+//    }
 
 //    public Map<String, ?> getExtra() {
 //        return extra;

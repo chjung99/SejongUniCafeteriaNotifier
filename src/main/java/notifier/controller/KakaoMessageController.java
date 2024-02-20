@@ -80,8 +80,8 @@ public class KakaoMessageController {
             ListItem lunchItem = new ListItem();
             lunchItem.setTitle("점심");
             lunchItem.setDescription("test");
-            lunchItem.setAction("message");
-            lunchItem.setMessageText(date + " 점심");
+//            lunchItem.setAction("message");
+//            lunchItem.setMessageText(date + " 점심");
 
 //            Map<String, String> lunchExtra = new HashMap<>();
 //            lunchExtra.put("sys_date", date);
@@ -94,8 +94,8 @@ public class KakaoMessageController {
             ListItem dinnerItem = new ListItem();
             dinnerItem.setTitle("저녁");
             dinnerItem.setDescription("test");
-            dinnerItem.setAction("message");
-            dinnerItem.setMessageText(date + " 저녁");
+//            dinnerItem.setAction("message");
+//            dinnerItem.setMessageText(date + " 저녁");
 
 //            Map<String, String> dinnerExtra = new HashMap<>();
 //            dinnerExtra.put("sys_date", date);
