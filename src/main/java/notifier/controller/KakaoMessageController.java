@@ -99,6 +99,8 @@ public class KakaoMessageController {
             dinnerExtra.put("sys_date",date);
             dinnerExtra.put("sys_time_period", "dinner");
 
+            lunchItem.setDescription("test");
+            dinnerItem.setDescription("test");
 
             lunchItem.setExtra(lunchExtra);
             dinnerItem.setExtra(dinnerExtra);
