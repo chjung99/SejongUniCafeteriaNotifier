@@ -3,14 +3,14 @@ package notifier.domain.skillresponse;
 import java.util.ArrayList;
 
 public class ListCard implements Card{
-    private ListItem header;
+    private Header header;
     private ArrayList<ListItem> items;
 
-    public ListItem getHeader() {
+    public Header getHeader() {
         return header;
     }
 
-    public void setHeader(ListItem header) {
+    public void setHeader(Header header) {
         this.header = header;
     }
 

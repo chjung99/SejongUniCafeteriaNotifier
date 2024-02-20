@@ -72,7 +72,7 @@ public class KakaoMessageController {
         for(String date : weekDates){
             ListCard listCard = new ListCard();
 
-            ListItem header = new ListItem();
+            Header header = new Header();
             header.setTitle("이번 주 계절 밥상");
 
             ArrayList<ListItem> items = new ArrayList<ListItem>();
