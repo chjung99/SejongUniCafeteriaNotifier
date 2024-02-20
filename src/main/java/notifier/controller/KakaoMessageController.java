@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @RestController
@@ -61,7 +60,70 @@ public class KakaoMessageController {
     }
 
     private KakaoSkillResponseDto generateCarouselListCardResponse() {
-        return null;
+        KakaoSkillResponseDto response = new KakaoSkillResponseDto();
+        CarouselOutput output = new CarouselOutput();
+        Carousel carousel = new Carousel();
+
+        DateService dateService = new DateService();
+
+        List<String> weekDates = dateService.getWeekDates(dateService.getToday());
+        ArrayList<Card> cardItems = new ArrayList<Card>();
+
+        for(String date : weekDates){
+            ListCard listCard = new ListCard();
+
+            ListItem header = new ListItem();
+            header.setTitle("이번 주 계절 밥상");
+
+            ArrayList<ListItem> items = new ArrayList<ListItem>();
+
+            ListItem lunchItem = new ListItem();
+            ListItem dinnerItem = new ListItem();
+
+            lunchItem.setTitle("점심");
+            dinnerItem.setTitle("저녁");
+
+            lunchItem.setMessageText(date + " 점심");
+            dinnerItem.setMessageText(date+ " 저녁");
+
+            lunchItem.setAction("message");
+            dinnerItem.setAction("message");
+
+            Map<String, String> lunchExtra = new HashMap<>();
+
+            lunchExtra.put("sys_date",date);
+            lunchExtra.put("sys_time_period", "lunch");
+
+            Map<String, String> dinnerExtra = new HashMap<>();
+
+            dinnerExtra.put("sys_date",date);
+            dinnerExtra.put("sys_time_period", "dinner");
+
+
+            lunchItem.setExtra(lunchExtra);
+            dinnerItem.setExtra(dinnerExtra);
+
+            items.add(lunchItem);
+            items.add(dinnerItem);
+
+            listCard.setHeader(header);
+            listCard.setItems(items);
+
+            cardItems.add(listCard);
+        }
+
+        carousel.setType("listCard");
+        carousel.setItems(cardItems);
+
+        output.setCarousel(carousel);
+
+        SkillTemplate template = new SkillTemplate();
+        template.setOutputs(new Output[]{output});
+
+        response.setVersion("2.0");
+        response.setTemplate(template);
+
+        return response;
     }
 
     private KakaoSkillResponseDto generateSimpleTextResponse(String mealTime, Optional<Menu> menu) {
