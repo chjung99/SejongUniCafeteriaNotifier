@@ -67,7 +67,7 @@ public class KakaoMessageController {
 
     private KakaoSkillResponseDto generateCarouselListCardResponse() {
         KakaoSkillResponseDto response = new KakaoSkillResponseDto();
-        CarouselOutput output = new CarouselOutput();
+        CarouselOutput carouselOutput = new CarouselOutput();
         Carousel carousel = new Carousel();
 
         DateService dateService = new DateService();
@@ -118,15 +118,26 @@ public class KakaoMessageController {
         carousel.setType("listCard");
         carousel.setItems(cardItems);
 
-        output.setCarousel(carousel);
+        carouselOutput.setCarousel(carousel);
 
-        SkillTemplate template = new SkillTemplate();
-        template.setOutputs(new Output[]{output});
+
+
+        SimpleText simpleText = new SimpleText();
+
+        String textMessage = "이번 주 메뉴입니다.\n원하는 시간을 선택해주세요!";
+        simpleText.setText(textMessage);
+
+        SimpleTextOutput simpleTextOutput = new SimpleTextOutput();
+        simpleTextOutput.setSimpleText(simpleText);
 
         QuickReply quickReply = new QuickReply();
         quickReply.setLabel("이번 주 식단 한눈에 보기");
         quickReply.setAction("message");
         quickReply.setMessageText("식단표");
+
+        SkillTemplate template = new SkillTemplate();
+        template.setOutputs(new Output[]{simpleTextOutput, carouselOutput});
+
         template.setQuickReplies(new QuickReply[]{quickReply});
 
         response.setVersion("2.0");
